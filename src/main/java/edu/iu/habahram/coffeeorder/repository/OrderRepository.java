@@ -63,6 +63,7 @@ public class OrderRepository {
         // Write order details to db.txt
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(DB_FILE_PATH, true))) {
             writer.write(String.format("%d, %.2f, %s\n", receipt.id(), receipt.cost(), receipt.description()));
+            System.out.println("Beverage added to system");
         } catch (IOException e) {
             // Handle IO exception
             throw new Exception("Error occurred while saving order to database.");
