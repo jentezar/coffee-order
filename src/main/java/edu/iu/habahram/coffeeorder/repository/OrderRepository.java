@@ -1,6 +1,7 @@
 package edu.iu.habahram.coffeeorder.repository;
 
 import edu.iu.habahram.coffeeorder.model.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -8,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Repository
+@Component
 public class OrderRepository {
     private static final String DB_FILE_PATH = "db.txt";
     private int lastUsedId = 0; // Initialize the last used ID to 0
@@ -32,21 +34,23 @@ public class OrderRepository {
             throw new Exception("Beverage type '%s' is not valid!".formatted(order.beverage()));
         }
         for (String condiment : order.condiments()) {
-            switch (condiment.toLowerCase()) {
-                case "milk":
-                    beverage = new Milk(beverage);
-                    break;
-                case "mocha":
-                    beverage = new Mocha(beverage);
-                    break;
-                // Add more cases for other types of condiments if needed
-                case "whip":
-                    beverage = new Whip(beverage);
-                    break;
-                case "soy":
-                    beverage = new Soy(beverage);
-                default:
-                    throw new Exception("Condiment type '%s' is not valid".formatted(condiment));
+            if(condiment != null) {
+                switch (condiment.toLowerCase()) {
+                    case "milk":
+                        beverage = new Milk(beverage);
+                        break;
+                    case "mocha":
+                        beverage = new Mocha(beverage);
+                        break;
+                    // Add more cases for other types of condiments if needed
+                    case "whip":
+                        beverage = new Whip(beverage);
+                        break;
+                    case "soy":
+                        beverage = new Soy(beverage);
+                    default:
+                        throw new Exception("Condiment type '%s' is not valid".formatted(condiment));
+                }
             }
         }
 
@@ -61,7 +65,7 @@ public class OrderRepository {
             writer.write(String.format("%d, %.2f, %s\n", receipt.id(), receipt.cost(), receipt.description()));
         } catch (IOException e) {
             // Handle IO exception
-            e.printStackTrace();
+            throw new Exception("Error occurred while saving order to database.");
         }
 
         return receipt;
