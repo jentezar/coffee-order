@@ -5,4 +5,3 @@ public record Customer(String username,
                        String email) {
 
 }
-

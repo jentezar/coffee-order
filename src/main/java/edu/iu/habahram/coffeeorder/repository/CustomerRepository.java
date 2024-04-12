@@ -1,9 +1,5 @@
 package edu.iu.habahram.coffeeorder.repository;
 
-import edu.iu.habahram.coffeeorder.model.Customer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,8 +9,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.iu.habahram.coffeeorder.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerRepository {
@@ -31,7 +31,7 @@ public class CustomerRepository {
     }
 
     private static final String NEW_LINE = System.lineSeparator();
-    private static final String DATABASE_NAME = "customers.txt";
+    private static final String DATABASE_NAME = "ducks/customers.txt";
     private static void appendToFile(Path path, String content)
             throws IOException {
         Files.write(path,
@@ -50,7 +50,7 @@ public class CustomerRepository {
         BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
         String passwordEncoded = bc.encode(customer.password());
         String data = customer.username() + ","
-                +passwordEncoded
+                + passwordEncoded
                 + "," + customer.email();
         appendToFile(path, data + NEW_LINE);
     }
@@ -79,4 +79,3 @@ public class CustomerRepository {
         return null;
     }
 }
-
