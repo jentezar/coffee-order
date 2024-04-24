@@ -20,10 +20,10 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<?> add(@RequestBody OrderData order) {
         try {
-            Receipt receipt = orderRepository.add(order);
+            OrderData orderData = orderRepository.save(order);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(receipt);
+                    .body(orderData);
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
