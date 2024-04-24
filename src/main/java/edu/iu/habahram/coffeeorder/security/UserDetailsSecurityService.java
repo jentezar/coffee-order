@@ -3,7 +3,6 @@ package edu.iu.habahram.coffeeorder.security;
 
 import edu.iu.habahram.coffeeorder.model.Customer;
 import edu.iu.habahram.coffeeorder.repository.CustomerRepository;
-import edu.iu.habahram.coffeeorder.repository.OrderRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +26,7 @@ public class UserDetailsSecurityService implements UserDetailsService {
             }
             return User
                     .withUsername(username)
-                    .password(customer.password())
+                    .password(customer.getPassword())
                     .build();
         } catch (Exception e) {
             throw new RuntimeException(e);
